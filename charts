@@ -1,0 +1,42 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+from IPython.display import display
+
+# Step 1: Expense data
+expenses = [
+    {"amount": 225.50, "category": "Groceries"},
+    {"amount": 150.00, "category": "Transportation"},
+    {"amount": 215.75, "category": "Entertainment"},
+    {"amount": 5.25, "category": "Coffee"},
+    {"amount": 60.00, "category": "Groceries"},
+]
+
+# Step 2: Create a DataFrame
+df = pd.DataFrame(expenses)
+
+# Step 3: Group by category
+totals = df.groupby("category")["amount"].sum().sort_values(ascending=False)
+
+# Step 4: Display tables
+print("Detailed Expenses:")
+display(df)
+
+print("\nTotal Spending by Category:")
+display(totals)
+
+# Step 5: Plot charts side by side
+fig, axs = plt.subplots(1, 2, figsize=(12, 5))
+
+# Bar chart
+axs[0].bar(totals.index, totals.values)
+axs[0].set_title("Bar Chart")
+axs[0].set_ylabel("Amount ($)")
+
+# Pie chart
+axs[1].pie(totals.values, labels=totals.index, autopct='%1.1f%%', startangle=90)
+axs[1].set_title("Pie Chart")
+axs[1].axis('equal')
+
+plt.suptitle("Spending Dashboard", fontsize=16)
+plt.tight_layout()
+plt.show()
